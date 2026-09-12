@@ -1,0 +1,1 @@
+# Aquecimento: um simples tradutor
