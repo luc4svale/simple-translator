@@ -18,8 +18,9 @@ public class Scanner {
   }
 
   private char peek() {
-    if (current < input.length)
+    if (current < input.length) {
       return (char) input[current];
+    }
     return '\0';
   }
 
@@ -60,13 +61,12 @@ public class Scanner {
 
   private Token identifier() {
     int start = current;
-    while (isAlphaNumeric(peek()))
+    while (isAlphaNumeric(peek())) {
       advance();
+    }
 
     String id = new String(input, start, current - start);
-    TokenType type = keywords.get(id);
-    if (type == null)
-      type = TokenType.IDENT;
+    TokenType type = keywords.getOrDefault(id, TokenType.IDENT);
     return new Token(type, id);
   }
 
@@ -105,5 +105,4 @@ public class Scanner {
         throw new Error("lexical error at " + ch);
     }
   }
-
 }

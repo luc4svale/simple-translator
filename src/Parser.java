@@ -16,38 +16,33 @@ public class Parser {
     if (currentToken.type == t) {
       nextToken();
     } else {
-      throw new Error("sintax error");
+      throw new Error("syntax error");
     }
   }
 
   private void emit(String s) {
     System.out.println(s);
-    buffer.append(s).append(System.getProperty("line.separator"));
+    buffer.append(s).append(System.lineSeparator());
   }
 
   public String output() {
     return buffer.toString();
   }
 
-  void expr() {
-    term();
-    oper();
+  void number() {
+    emit("push " + currentToken.lexeme);
+    match(TokenType.NUMBER);
   }
 
   void term() {
-    if (currentToken.type == TokenType.NUMBER)
+    if (currentToken.type == TokenType.NUMBER) {
       number();
-    else if (currentToken.type == TokenType.IDENT) {
+    } else if (currentToken.type == TokenType.IDENT) {
       emit("push " + currentToken.lexeme);
       match(TokenType.IDENT);
     } else {
       throw new Error("syntax error");
     }
-  }
-
-  void number() {
-    emit("push " + currentToken.lexeme);
-    match(TokenType.NUMBER);
   }
 
   void oper() {
@@ -64,6 +59,18 @@ public class Parser {
     }
   }
 
+  void expr() {
+    term();
+    oper();
+  }
+
+  void printStatement() {
+    match(TokenType.PRINT);
+    expr();
+    emit("print");
+    match(TokenType.SEMICOLON);
+  }
+
   void letStatement() {
     match(TokenType.LET);
     var id = currentToken.lexeme;
@@ -74,20 +81,13 @@ public class Parser {
     match(TokenType.SEMICOLON);
   }
 
-  void printStatement() {
-    match(TokenType.PRINT);
-    expr();
-    emit("print");
-    match(TokenType.SEMICOLON);
-  }
-
   void statement() {
     if (currentToken.type == TokenType.PRINT) {
       printStatement();
     } else if (currentToken.type == TokenType.LET) {
       letStatement();
     } else {
-      throw new Error("sintax error");
+      throw new Error("syntax error");
     }
   }
 
@@ -100,5 +100,4 @@ public class Parser {
   public void parse() {
     statements();
   }
-
 }

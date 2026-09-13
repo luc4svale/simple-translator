@@ -4,7 +4,7 @@ public class Main {
         let a = 42 + 2;
         let b = 15 + 3;
         print a + b;
-           """;
+        """;
     Parser p = new Parser(input.getBytes());
     p.parse();
 

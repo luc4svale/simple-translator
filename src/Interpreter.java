@@ -11,11 +11,11 @@ public class Interpreter {
   Map<String, Integer> variables = new HashMap<>();
 
   public Interpreter(String input) {
-    final String eol = System.getProperty("line.separator");
+    final String eol = System.lineSeparator();
     var output = input.split(eol);
     commands = Arrays.stream(output)
         .map(String::strip)
-        .filter((s) -> s.indexOf("//") != 0 && s != "")
+        .filter((s) -> s.indexOf("//") != 0 && !s.isEmpty())
         .map((s) -> s.split(" "))
         .collect(Collectors.toList());
   }
@@ -32,17 +32,19 @@ public class Interpreter {
     while (hasMoreCommands()) {
       var command = nextCommand();
       switch (command.type) {
-        case ADD:
+        case ADD: {
           var arg2 = stack.pop();
           var arg1 = stack.pop();
           stack.push(arg1 + arg2);
           break;
-        case SUB:
-          arg2 = stack.pop();
-          arg1 = stack.pop();
+        }
+        case SUB: {
+          var arg2 = stack.pop();
+          var arg1 = stack.pop();
           stack.push(arg1 - arg2);
           break;
-        case PUSH:
+        }
+        case PUSH: {
           var value = variables.get(command.arg);
           if (value != null) {
             stack.push(value);
@@ -50,16 +52,18 @@ public class Interpreter {
             stack.push(Integer.parseInt(command.arg));
           }
           break;
-        case POP:
-          value = stack.pop();
+        }
+        case POP: {
+          var value = stack.pop();
           variables.put(command.arg, value);
           break;
-        case PRINT:
+        }
+        case PRINT: {
           var arg = stack.pop();
           System.out.println(arg);
           break;
+        }
       }
     }
   }
-
 }
