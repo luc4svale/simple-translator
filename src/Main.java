@@ -1,11 +1,14 @@
 public class Main {
   public static void main(String[] args) throws Exception {
     String input = """
-                let a = 42 + 5 - 8;
-                let b = 56 + 8;
-                print a + b + 6;
-                   """;
+        let a = 42 + 2;
+        let b = 15 + 3;
+        print a + b;
+           """;
     Parser p = new Parser(input.getBytes());
     p.parse();
+
+    Interpreter i = new Interpreter(p.output());
+    i.run();
   }
 }
