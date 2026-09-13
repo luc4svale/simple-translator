@@ -1,6 +1,7 @@
 public class Parser {
   private Scanner scan;
   private Token currentToken;
+  private StringBuilder buffer = new StringBuilder();
 
   public Parser(byte[] input) {
     scan = new Scanner(input);
@@ -19,6 +20,15 @@ public class Parser {
     }
   }
 
+  private void emit(String s) {
+    System.out.println(s);
+    buffer.append(s).append(System.getProperty("line.separator"));
+  }
+
+  public String output() {
+    return buffer.toString();
+  }
+
   void expr() {
     term();
     oper();
@@ -28,7 +38,7 @@ public class Parser {
     if (currentToken.type == TokenType.NUMBER)
       number();
     else if (currentToken.type == TokenType.IDENT) {
-      System.out.println("push " + currentToken.lexeme);
+      emit("push " + currentToken.lexeme);
       match(TokenType.IDENT);
     } else {
       throw new Error("syntax error");
@@ -36,7 +46,7 @@ public class Parser {
   }
 
   void number() {
-    System.out.println("push " + currentToken.lexeme);
+    emit("push " + currentToken.lexeme);
     match(TokenType.NUMBER);
   }
 
@@ -44,12 +54,12 @@ public class Parser {
     if (currentToken.type == TokenType.PLUS) {
       match(TokenType.PLUS);
       term();
-      System.out.println("add");
+      emit("add");
       oper();
     } else if (currentToken.type == TokenType.MINUS) {
       match(TokenType.MINUS);
       term();
-      System.out.println("sub");
+      emit("sub");
       oper();
     }
   }
@@ -60,14 +70,14 @@ public class Parser {
     match(TokenType.IDENT);
     match(TokenType.EQ);
     expr();
-    System.out.println("pop " + id);
+    emit("pop " + id);
     match(TokenType.SEMICOLON);
   }
 
   void printStatement() {
     match(TokenType.PRINT);
     expr();
-    System.out.println("print");
+    emit("print");
     match(TokenType.SEMICOLON);
   }
 
