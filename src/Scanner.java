@@ -93,6 +93,12 @@ public class Scanner {
       case '-':
         advance();
         return new Token(TokenType.MINUS, "-");
+      case '*':
+        advance();
+        return new Token(TokenType.STAR, "*");
+      case '/':
+        advance();
+        return new Token(TokenType.SLASH, "/");
       case '=':
         advance();
         return new Token(TokenType.EQ, "=");

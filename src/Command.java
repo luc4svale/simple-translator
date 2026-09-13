@@ -2,6 +2,8 @@ public class Command {
   public enum Type {
     ADD,
     SUB,
+    MUL,
+    DIV,
     PUSH,
     POP,
     PRINT

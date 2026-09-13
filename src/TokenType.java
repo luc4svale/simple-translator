@@ -1,5 +1,6 @@
 public enum TokenType {
-  PLUS, MINUS, EQ, SEMICOLON,
+  PLUS, MINUS, STAR, SLASH,
+  EQ, SEMICOLON,
 
   NUMBER, IDENT,
 

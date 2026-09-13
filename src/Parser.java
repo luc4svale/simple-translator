@@ -34,7 +34,7 @@ public class Parser {
     match(TokenType.NUMBER);
   }
 
-  void term() {
+  void factor() {
     if (currentToken.type == TokenType.NUMBER) {
       number();
     } else if (currentToken.type == TokenType.IDENT) {
@@ -43,6 +43,25 @@ public class Parser {
     } else {
       throw new Error("syntax error");
     }
+  }
+
+  void termOper() {
+    if (currentToken.type == TokenType.STAR) {
+      match(TokenType.STAR);
+      factor();
+      emit("mul");
+      termOper();
+    } else if (currentToken.type == TokenType.SLASH){
+      match(TokenType.SLASH);
+      factor();
+      emit("div");
+      termOper();
+    }  
+  }
+
+  void term () {
+    factor();
+    termOper();
   }
 
   void oper() {

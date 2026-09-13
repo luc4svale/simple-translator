@@ -44,6 +44,18 @@ public class Interpreter {
           stack.push(arg1 - arg2);
           break;
         }
+        case MUL: {
+          var arg2 = stack.pop();
+          var arg1 = stack.pop();
+          stack.push(arg1 * arg2);
+          break;
+        }
+        case DIV: {
+          var arg2 = stack.pop();
+          var arg1 = stack.pop();
+          stack.push(arg1 / arg2);
+          break;
+        }
         case PUSH: {
           var value = variables.get(command.arg);
           if (value != null) {
